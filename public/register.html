@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Register - UK Compliant News Aggregator">
+    <title>Register - UK Compliant News Aggregator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 2rem;
+        }
+        .auth-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            padding: 2rem;
+            width: 100%;
+            max-width: 450px;
+        }
+        .auth-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .auth-title {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #1a365d;
+            margin-bottom: 0.5rem;
+        }
+        .auth-subtitle {
+            color: #718096;
+            font-size: 1rem;
+        }
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        .form-group label {
+            font-weight: 500;
+            color: #4a5568;
+            margin-bottom: 0.5rem;
+        }
+        .form-group input {
+            padding: 0.75rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        .form-group input:focus {
+            border-color: #3182ce;
+            outline: none;
+        }
+        .help-text {
+            font-size: 0.875rem;
+            color: #718096;
+            margin-top: 0.25rem;
+        }
+        .checkbox-label {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            cursor: pointer;
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+        .checkbox-label input[type="checkbox"] {
+            margin: 0;
+            width: auto;
+        }
+        .checkbox-label input[type="checkbox"]:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+        .btn-primary {
+            background: #3182ce;
+            color: white;
+        }
+        .btn-primary:hover {
+            background: #2c5aa0;
+        }
+        .btn-secondary {
+            background: #e2e8f0;
+            color: #4a5568;
+        }
+        .btn-secondary:hover {
+            background: #cbd5e0;
+        }
+        .form-error {
+            background: #fed7d7;
+            color: #c53030;
+            padding: 0.75rem;
+            border-radius: 4px;
+            margin: 1rem 0;
+            border: 1px solid #feb2b2;
+        }
+        .form-error p {
+            margin: 0;
+            font-weight: 500;
+        }
+        .success-message {
+            background: #c6f6d5;
+            color: #22543d;
+            padding: 1rem;
+            border-radius: 4px;
+            margin: 1rem 0;
+            border: 2px solid #38a169;
+            font-weight: 600;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+        .back-link {
+            text-align: center;
+            margin-top: 2rem;
+        }
+        .back-link a {
+            color: #3182ce;
+            text-decoration: none;
+        }
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+        .login-link {
+            text-align: center;
+            margin-top: 1rem;
+        }
+        .login-link a {
+            color: #3182ce;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+        .gdpr-notice {
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-size: 0.875rem;
+            color: #4a5568;
+        }
+        .gdpr-notice h4 {
+            color: #2d3748;
+            margin: 0 0 0.5rem 0;
+            font-size: 1rem;
+        }
+        .required-field {
+            color: #e53e3e;
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h1 class="auth-title">Create Account</h1>
+                <p class="auth-subtitle">Join BritBuzz as a reader!</p>
+            </div>
+            
+            <form id="register-form" class="auth-form">
+                <div class="form-group">
+                    <label for="register-email">Email Address <span class="required-field">*</span></label>
+                    <input type="email" id="register-email" name="email" required aria-describedby="register-email-help">
+                    <div id="register-email-help" class="help-text">Enter your email address</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="register-password">Password <span class="required-field">*</span></label>
+                    <input type="password" id="register-password" name="password" required minlength="8" aria-describedby="register-password-help">
+                    <div id="register-password-help" class="help-text">Password must be at least 8 characters</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="register-age">Age <span class="required-field">*</span></label>
+                    <input type="number" id="register-age" name="age" required min="13" max="120" aria-describedby="register-age-help">
+                    <div id="register-age-help" class="help-text">You must be at least 13 years old</div>
+                </div>
+                
+                <div class="gdpr-notice">
+                    <h4>GDPR Compliance Notice</h4>
+                    <p>We are committed to protecting your privacy and complying with UK GDPR and Data Protection Act 2018. By registering, you agree to our data processing practices.</p>
+                </div>
+                
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="register-consent" name="consent" required>
+                        <span>I consent to the processing of my personal data in accordance with the <a href="/privacy.html" target="_blank">Privacy Policy</a> <span class="required-field">*</span></span>
+                    </label>
+                </div>
+                
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="register-essential" name="essential" checked disabled>
+                        <span>Essential data processing for account management and service provision (required) <span class="required-field">*</span></span>
+                    </label>
+                </div>
+                
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="register-analytics" name="analytics">
+                        <span>I consent to anonymized analytics data collection to improve service quality (optional)</span>
+                    </label>
+                </div>
+                
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="register-cookies" name="cookies">
+                        <span>I consent to preference cookies for remembering my settings (optional)</span>
+                    </label>
+                </div>
+                
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="register-newsletter" name="newsletter">
+                        <span>I would like to receive news updates and service notifications (optional)</span>
+                    </label>
+                </div>
+                
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="register-marketing" name="marketing">
+                        <span>I consent to receive marketing communications about new features and services (optional)</span>
+                    </label>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Create Account</button>
+            </form>
+            
+            <div class="login-link">
+                <p>Already have an account? <a href="/login.html">Sign in here</a></p>
+            </div>
+            
+            <div class="back-link">
+                <a href="/">← Back to BritBuzz homepage</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Registration handler
+        async function handleRegister(event) {
+            event.preventDefault();
+            console.log('Registration form submitted - DEBUG');
+            
+            // Show immediate feedback
+            showSuccess('Form submitted! Processing registration...');
+            
+            // Show loading state
+            const submitButton = event.target.querySelector('button[type="submit"]');
+            const originalText = submitButton.textContent;
+            submitButton.textContent = 'Creating Account...';
+            submitButton.disabled = true;
+            
+            const formData = new FormData(event.target);
+            const data = {
+                email: formData.get('email'),
+                password: formData.get('password'),
+                age: parseInt(formData.get('age')),
+                consent: formData.get('consent') === 'on' ? 'true' : 'false',
+                essential: formData.get('essential') === 'on' ? 'true' : 'false',
+                analytics: formData.get('analytics') === 'on' ? 'true' : 'false',
+                cookies: formData.get('cookies') === 'on' ? 'true' : 'false',
+                newsletter: formData.get('newsletter') === 'on' ? 'true' : 'false',
+                marketing: formData.get('marketing') === 'on' ? 'true' : 'false'
+            };
+
+            console.log('Registration data:', data);
+            clearFormErrors('register-form');
+
+            // Validate age
+            if (data.age < 13) {
+                showFormError('You must be at least 13 years old to register.', 'register-form');
+                return;
+            }
+
+            // Validate consent
+            if (data.consent !== 'true') {
+                showFormError('You must consent to data processing to create an account.', 'register-form');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/auth/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                console.log('Registration response status:', response.status);
+                const result = await response.json();
+                console.log('Registration result:', result);
+                
+                if (response.ok) {
+                    showSuccess('Registration successful! Redirecting to login...');
+                    // Reset button
+                    submitButton.textContent = originalText;
+                    submitButton.disabled = false;
+                    setTimeout(() => {
+                        window.location.href = '/login.html';
+                    }, 2000);
+                } else {
+                    showFormError(result.error || 'Registration failed', 'register-form');
+                    // Reset button
+                    submitButton.textContent = originalText;
+                    submitButton.disabled = false;
+                }
+            } catch (error) {
+                console.error('Registration error:', error);
+                showFormError('Registration failed. Please try again.', 'register-form');
+                // Reset button
+                submitButton.textContent = originalText;
+                submitButton.disabled = false;
+            }
+        }
+
+        function showFormError(message, formId) {
+            // Remove any existing error messages
+            const existingError = document.querySelector(`#${formId} .form-error`);
+            if (existingError) {
+                existingError.remove();
+            }
+
+            // Create new error message
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'form-error';
+            errorDiv.setAttribute('role', 'alert');
+            errorDiv.setAttribute('aria-live', 'assertive');
+            errorDiv.innerHTML = `<p>${escapeHtml(message)}</p>`;
+
+            // Insert error message at the top of the form
+            const form = document.getElementById(formId);
+            if (form) {
+                form.insertBefore(errorDiv, form.firstChild);
+            }
+        }
+
+        function showSuccess(message) {
+            // Remove any existing success messages
+            const existingSuccess = document.querySelector('.success-message');
+            if (existingSuccess) {
+                existingSuccess.remove();
+            }
+
+            // Create new success message
+            const successDiv = document.createElement('div');
+            successDiv.className = 'success-message';
+            successDiv.setAttribute('role', 'alert');
+            successDiv.setAttribute('aria-live', 'polite');
+            successDiv.innerHTML = `<p>${escapeHtml(message)}</p>`;
+
+            // Insert success message at the top of the auth card
+            const authCard = document.querySelector('.auth-card');
+            if (authCard) {
+                authCard.insertBefore(successDiv, authCard.firstChild);
+            }
+        }
+
+        function clearFormErrors(formId) {
+            const existingError = document.querySelector(`#${formId} .form-error`);
+            if (existingError) {
+                existingError.remove();
+            }
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Registration page loaded successfully');
+            
+            // Add event listener to form
+            const form = document.getElementById('register-form');
+            if (form) {
+                console.log('Form found:', form);
+                
+                // Remove any existing event listeners
+                form.removeEventListener('submit', handleRegister);
+                
+                // Add new event listener
+                form.addEventListener('submit', handleRegister);
+                console.log('Event listener added to form');
+                
+                // Test if function exists
+                if (typeof handleRegister === 'function') {
+                    console.log('handleRegister function exists');
+                } else {
+                    console.error('handleRegister function not found!');
+                }
+            } else {
+                console.error('Form not found!');
+            }
+            
+            // Add real-time validation
+            const emailInput = document.getElementById('register-email');
+            const passwordInput = document.getElementById('register-password');
+            const ageInput = document.getElementById('register-age');
+            const consentCheckbox = document.getElementById('register-consent');
+
+            // Email validation
+            emailInput.addEventListener('blur', function() {
+                const email = this.value;
+                if (email && !isValidEmail(email)) {
+                    showFieldError(this, 'Please enter a valid email address');
+                } else {
+                    clearFieldError(this);
+                }
+            });
+
+            // Password validation
+            passwordInput.addEventListener('input', function() {
+                const password = this.value;
+                if (password && password.length < 8) {
+                    showFieldError(this, 'Password must be at least 8 characters');
+                } else {
+                    clearFieldError(this);
+                }
+            });
+
+            // Age validation
+            ageInput.addEventListener('blur', function() {
+                const age = parseInt(this.value);
+                if (age && age < 13) {
+                    showFieldError(this, 'You must be at least 13 years old');
+                } else {
+                    clearFieldError(this);
+                }
+            });
+
+            // Consent validation
+            consentCheckbox.addEventListener('change', function() {
+                if (!this.checked) {
+                    showFieldError(this, 'You must consent to data processing');
+                } else {
+                    clearFieldError(this);
+                }
+            });
+        });
+
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        function showFieldError(input, message) {
+            clearFieldError(input);
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'field-error';
+            errorDiv.style.cssText = 'color: #e53e3e; font-size: 0.875rem; margin-top: 0.25rem;';
+            errorDiv.textContent = message;
+            input.parentNode.appendChild(errorDiv);
+        }
+
+        function clearFieldError(input) {
+            const existingError = input.parentNode.querySelector('.field-error');
+            if (existingError) {
+                existingError.remove();
+            }
+        }
+    </script>
+</body>
+</html>

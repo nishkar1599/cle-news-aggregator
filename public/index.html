@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="UK Compliant News Aggregator - GDPR compliant news and media aggregation service">
+    <meta name="keywords" content="news, aggregator, UK, GDPR, compliant, media">
+    <meta name="author" content="UK Compliant News Aggregator">
+    <title>UK Compliant News Aggregator</title>
+    
+    <!-- Security and Privacy -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:;">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    
+    <!-- Accessibility -->
+    <meta name="theme-color" content="#1a365d">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Styles -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Structured Data for SEO -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "UK Compliant News Aggregator",
+        "description": "GDPR compliant news and media aggregation service",
+        "url": "https://newsaggregator.co.uk",
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://newsaggregator.co.uk/search?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+        }
+    }
+    </script>
+</head>
+<body>
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <!-- Header -->
+    <header role="banner" class="header">
+        <div class="container">
+            <div class="header-content">
+                <h1 class="logo">
+                    <a href="/" aria-label="UK Compliant News Aggregator - Home">
+                        <span class="logo-text">UK News</span>
+                        <span class="logo-subtitle">GDPR Compliant</span>
+                    </a>
+                </h1>
+                <nav role="navigation" aria-label="Main navigation" class="nav">
+                    <ul class="nav-list">
+                        <li><a href="#news" class="nav-link">News</a></li>
+                        <li><a href="#sources" class="nav-link">Sources</a></li>
+                        <li><a href="/privacy.html" class="nav-link">Privacy</a></li>
+                        <li><a href="/consent.html" class="nav-link">Consent</a></li>
+                        <li><a href="/terms.html" class="nav-link">Terms</a></li>
+                        <li><a href="/login.html" class="nav-link" id="login-link">Login</a></li>
+                        <li><a href="/register.html" class="nav-link">Register</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="main-content" role="main">
+        <!-- Hero Section -->
+        <section class="hero" aria-labelledby="hero-title">
+            <div class="container">
+                <div class="hero-content">
+                    <h2 id="hero-title" class="hero-title">BritBuzz</h2>
+                    <p class="hero-description">
+                        Access the latest news from trusted UK sources with full GDPR compliance and data protection.
+                    </p>
+                    <div class="hero-features">
+                        <div class="feature">
+                            <span class="feature-icon" aria-hidden="true">✓</span>
+                            <span>GDPR Compliant</span>
+                        </div>
+                        <div class="feature">
+                            <span class="feature-icon" aria-hidden="true">★</span>
+                            <span>Trusted Sources</span>
+                        </div>
+                        <div class="feature">
+                            <span>Accessible</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- News Section -->
+        <section id="news" class="news-section" aria-labelledby="news-title">
+            <div class="container">
+                <h2 id="news-title" class="section-title">Latest News</h2>
+                
+                <!-- News Filters -->
+                <div class="news-filters" role="group" aria-labelledby="filters-title">
+                    <h3 id="filters-title" class="filters-title">Filter News</h3>
+                    <div class="filter-controls">
+                        <label for="category-select" class="filter-label">Category:</label>
+                        <select id="category-select" class="filter-select" aria-describedby="category-help">
+                            <option value="general">General</option>
+                            <option value="business">Business</option>
+                            <option value="technology">Technology</option>
+                            <option value="sports">Sports</option>
+                            <option value="politics">Politics</option>
+                        </select>
+                        <div id="category-help" class="help-text">Select a news category to filter articles</div>
+                        
+                        <label for="source-select" class="filter-label">Source:</label>
+                        <select id="source-select" class="filter-select" aria-describedby="source-help">
+                            <option value="">All Sources</option>
+                        </select>
+                        <div id="source-help" class="help-text">Select a specific news source</div>
+                        
+                        <button id="load-news" class="btn btn-primary" aria-describedby="load-help">
+                            Load News
+                        </button>
+                        <div id="load-help" class="help-text">Click to load news articles</div>
+                    </div>
+                </div>
+
+                <!-- Loading Indicator -->
+                <div id="loading" class="loading" role="status" aria-live="polite" style="display: none;">
+                    <div class="spinner" aria-hidden="true"></div>
+                    <span>Loading news articles...</span>
+                </div>
+
+                <!-- News Articles -->
+                <div id="news-container" class="news-container" role="region" aria-live="polite" aria-labelledby="news-title">
+                    <!-- News articles will be loaded here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Privacy Section -->
+        <section id="privacy" class="privacy-section" aria-labelledby="privacy-title">
+            <div class="container">
+                <h2 id="privacy-title" class="section-title">Privacy & Data Protection</h2>
+                <div class="privacy-content">
+                    <div class="privacy-card">
+                        <h3>GDPR Compliance</h3>
+                        <p>We are fully compliant with UK GDPR and Data Protection Act 2018.</p>
+                        <ul>
+                            <li>Explicit consent for data processing</li>
+                            <li>Right to access your data</li>
+                            <li>Right to delete your data</li>
+                            <li>Data portability rights</li>
+                        </ul>
+                        <a href="/privacy.html" class="btn btn-secondary">View Privacy Policy</a>
+                    </div>
+                    <div class="privacy-card">
+                        <h3>Cookie Consent</h3>
+                        <p>Manage your cookie preferences and data processing consent.</p>
+                        <a href="/consent.html" class="btn btn-secondary">Manage Cookies</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer role="contentinfo" class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Legal</h3>
+                    <ul>
+                        <li><a href="/privacy.html">Privacy Policy</a></li>
+                        <li><a href="/terms.html">Terms of Service</a></li>
+                        <li><a href="/consent.html">Consent Management</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Compliance</h3>
+                    <ul>
+                        <li><a href="https://ico.org.uk" target="_blank" rel="noopener noreferrer">ICO (Information Commissioner's Office)</a></li>
+                        <li><a href="https://www.gov.uk/data-protection" target="_blank" rel="noopener noreferrer">UK Data Protection</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <p>Email: privacy@newsaggregator.co.uk</p>
+                    <p>Data Protection Officer: dpo@newsaggregator.co.uk</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 UK Compliant News Aggregator. All rights reserved. GDPR Compliant.</p>
+            </div>
+        </div>
+    </footer>
+
+
+
+    <!-- Scripts -->
+    <script src="app.js"></script>
+</body>
+</html>

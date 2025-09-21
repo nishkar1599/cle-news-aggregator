@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Consent Management - UK News Aggregator">
+    <title>Consent Management - UK News Aggregator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .consent-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            line-height: 1.6;
+        }
+        .consent-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 8px;
+        }
+        .consent-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        .consent-subtitle {
+            font-size: 1.25rem;
+            opacity: 0.9;
+        }
+        .consent-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .consent-section {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+        }
+        .consent-section h2 {
+            color: #1a365d;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .consent-section h3 {
+            color: #2d3748;
+            font-size: 1.25rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .consent-section p {
+            margin-bottom: 1rem;
+            color: #4a5568;
+        }
+        .consent-section ul {
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+        }
+        .consent-section li {
+            margin-bottom: 0.5rem;
+            color: #4a5568;
+        }
+        .consent-section strong {
+            color: #2d3748;
+        }
+        .consent-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        .consent-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            background: #f7fafc;
+        }
+        .consent-info {
+            flex: 1;
+        }
+        .consent-info h4 {
+            margin: 0 0 0.5rem 0;
+            color: #2d3748;
+        }
+        .consent-info p {
+            margin: 0;
+            font-size: 0.875rem;
+            color: #718096;
+        }
+        .consent-toggle {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .toggle-switch {
+            position: relative;
+            width: 50px;
+            height: 24px;
+            background: #cbd5e0;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .toggle-switch.active {
+            background: #3182ce;
+        }
+        .toggle-slider {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.3s;
+        }
+        .toggle-switch.active .toggle-slider {
+            transform: translateX(26px);
+        }
+        .consent-status {
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        .consent-status.given {
+            color: #38a169;
+        }
+        .consent-status.withdrawn {
+            color: #e53e3e;
+        }
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+        .btn-primary {
+            background: #3182ce;
+            color: white;
+        }
+        .btn-primary:hover {
+            background: #2c5aa0;
+        }
+        .btn-secondary {
+            background: #e2e8f0;
+            color: #4a5568;
+        }
+        .btn-secondary:hover {
+            background: #cbd5e0;
+        }
+        .back-link {
+            text-align: center;
+            margin-top: 2rem;
+        }
+        .back-link a {
+            color: #3182ce;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+        .highlight-box {
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        .form-error {
+            background: #fed7d7;
+            color: #c53030;
+            padding: 0.75rem;
+            border-radius: 4px;
+            margin: 1rem 0;
+            border: 1px solid #feb2b2;
+        }
+        .success-message {
+            background: #c6f6d5;
+            color: #22543d;
+            padding: 0.75rem;
+            border-radius: 4px;
+            margin: 1rem 0;
+            border: 1px solid #9ae6b4;
+        }
+    </style>
+</head>
+<body>
+    <div class="consent-container">
+        <div class="consent-header">
+            <h1 class="consent-title">Consent Management</h1>
+            <p class="consent-subtitle">GDPR Compliant Consent Control</p>
+        </div>
+        
+        <div class="consent-content">
+            <div class="highlight-box">
+                <p><strong>Your Rights:</strong> You have the right to give, withdraw, or modify your consent at any time. All consent changes take effect immediately.</p>
+            </div>
+
+            <div class="consent-section">
+                <h2>Cookie Consent</h2>
+                <p>Manage your cookie preferences and data processing consent in accordance with GDPR and PECR.</p>
+                
+                <div class="consent-controls">
+                    <div class="consent-item">
+                        <div class="consent-info">
+                            <h4>Essential Cookies</h4>
+                            <p>Required for basic website functionality (session cookies, authentication cookies)</p>
+                        </div>
+                        <div class="consent-toggle">
+                            <div class="toggle-switch active" id="essential-toggle">
+                                <div class="toggle-slider"></div>
+                            </div>
+                            <span class="consent-status given">Required</span>
+                        </div>
+                    </div>
+                    
+                    <div class="consent-item">
+                        <div class="consent-info">
+                            <h4>Analytics Cookies</h4>
+                            <p>Help us understand how users interact with our service (anonymized usage tracking)</p>
+                        </div>
+                        <div class="consent-toggle">
+                            <div class="toggle-switch" id="analytics-toggle">
+                                <div class="toggle-slider"></div>
+                            </div>
+                            <span class="consent-status" id="analytics-status">Optional</span>
+                        </div>
+                    </div>
+                    
+                    <div class="consent-item">
+                        <div class="consent-info">
+                            <h4>Preference Cookies</h4>
+                            <p>Remember your settings and preferences (language settings, display preferences)</p>
+                        </div>
+                        <div class="consent-toggle">
+                            <div class="toggle-switch" id="preferences-toggle">
+                                <div class="toggle-slider"></div>
+                            </div>
+                            <span class="consent-status" id="preferences-status">Optional</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary" onclick="saveCookieConsent()">Save Cookie Preferences</button>
+            </div>
+
+            <div class="consent-section">
+                <h2>Data Processing Consent</h2>
+                <p>Control how your personal data is processed in accordance with GDPR Article 6(1)(a) - Consent.</p>
+                
+                <div class="consent-controls">
+                    <div class="consent-item">
+                        <div class="consent-info">
+                            <h4>Account Management</h4>
+                            <p>Processing of your account data for authentication and service provision</p>
+                        </div>
+                        <div class="consent-toggle">
+                            <div class="toggle-switch active" id="essential-toggle">
+                                <div class="toggle-slider"></div>
+                            </div>
+                            <span class="consent-status given" id="account-status">Required</span>
+                        </div>
+                    </div>
+                    
+                    <div class="consent-item">
+                        <div class="consent-info">
+                            <h4>Service Analytics</h4>
+                            <p>Anonymized usage data to improve our service quality</p>
+                        </div>
+                        <div class="consent-toggle">
+                            <div class="toggle-switch" id="analytics-data-toggle">
+                                <div class="toggle-slider"></div>
+                            </div>
+                            <span class="consent-status" id="analytics-data-status">Not Set</span>
+                        </div>
+                    </div>
+                    
+                    <div class="consent-item">
+                        <div class="consent-info">
+                            <h4>Communication</h4>
+                            <p>Email notifications about service updates and important changes</p>
+                        </div>
+                        <div class="consent-toggle">
+                            <div class="toggle-switch" id="communication-toggle">
+                                <div class="toggle-slider"></div>
+                            </div>
+                            <span class="consent-status" id="communication-status">Not Set</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary" onclick="saveDataConsent()">Save Data Processing Preferences</button>
+            </div>
+
+            <div class="consent-section">
+                <h2>Consent History</h2>
+                <p>View your consent history and track changes to your privacy preferences.</p>
+                
+                <div id="consent-history">
+                    <p>Loading consent history...</p>
+                </div>
+                
+                <button class="btn btn-secondary" onclick="loadConsentHistory()">Refresh History</button>
+            </div>
+
+            <div class="consent-section">
+                <h2>Your Rights</h2>
+                <h3>Right to Withdraw Consent</h3>
+                <p>You can withdraw your consent at any time. Withdrawal will not affect the lawfulness of processing based on consent before its withdrawal.</p>
+                
+                <h3>Right to Access</h3>
+                <p>You have the right to know what personal data we hold about you and how we process it.</p>
+                
+                <h3>Right to Rectification</h3>
+                <p>You can request correction of any inaccurate personal data we hold about you.</p>
+                
+                <h3>Right to Erasure</h3>
+                <p>You can request deletion of your personal data ("right to be forgotten").</p>
+                
+                <h3>Right to Portability</h3>
+                <p>You can request a copy of your personal data in a structured, machine-readable format.</p>
+                
+                <div class="highlight-box">
+                    <p><strong>Contact Us:</strong> To exercise any of your rights, contact us at privacy@newsaggregator.co.uk</p>
+                    <p><strong>ICO Complaints:</strong> You can also lodge a complaint with the ICO at <a href="https://ico.org.uk/concerns/" target="_blank" rel="noopener noreferrer">ico.org.uk/concerns/</a></p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="back-link">
+            <a href="/">← Back to BritBuzz homepage!</a>
+        </div>
+    </div>
+
+    <script>
+        // Initialize consent management
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Consent management page loaded');
+            loadConsentHistory();
+            setupToggleListeners();
+        });
+
+        function setupToggleListeners() {
+            // Setup toggle listeners for all consent toggles
+            document.querySelectorAll('.toggle-switch').forEach(toggle => {
+                toggle.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    updateConsentStatus(this);
+                });
+            });
+        }
+
+        function updateConsentStatus(toggle) {
+            const isActive = toggle.classList.contains('active');
+            const statusElement = toggle.parentElement.querySelector('.consent-status');
+            
+            if (toggle.id === 'essential-toggle') {
+                // Essential cookies are always required
+                return;
+            }
+            
+            if (isActive) {
+                statusElement.textContent = 'Given';
+                statusElement.className = 'consent-status given';
+            } else {
+                statusElement.textContent = 'Withdrawn';
+                statusElement.className = 'consent-status withdrawn';
+            }
+        }
+
+        async function saveCookieConsent() {
+            const essential = document.getElementById('essential-toggle').classList.contains('active');
+            const analytics = document.getElementById('analytics-toggle').classList.contains('active');
+            const preferences = document.getElementById('preferences-toggle').classList.contains('active');
+            
+            try {
+                const response = await fetch('/api/consent/cookies', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        userId: 'current-user', // In a real app, get from auth
+                        essential: essential,
+                        analytics: analytics,
+                        preferences: preferences
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    showSuccess('Cookie preferences saved successfully!');
+                } else {
+                    showError('Failed to save cookie preferences: ' + result.error);
+                }
+            } catch (error) {
+                console.error('Cookie consent error:', error);
+                showError('Failed to save cookie preferences. Please try again.');
+            }
+        }
+
+        async function saveDataConsent() {
+            const account = document.getElementById('account-toggle').classList.contains('active');
+            const analytics = document.getElementById('analytics-data-toggle').classList.contains('active');
+            const communication = document.getElementById('communication-toggle').classList.contains('active');
+            
+            try {
+                // Save each consent type
+                const consents = [
+                    { type: 'dataProcessing', consent: account, purpose: 'Account management' },
+                    { type: 'analytics', consent: analytics, purpose: 'Service analytics' },
+                    { type: 'marketing', consent: communication, purpose: 'Communication' }
+                ];
+                
+                for (const consent of consents) {
+                    const response = await fetch('/api/consent/give', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            userId: 'current-user', // In a real app, get from auth
+                            consentType: consent.type,
+                            consent: consent.consent,
+                            purpose: consent.purpose
+                        })
+                    });
+                    
+                    if (!response.ok) {
+                        const result = await response.json();
+                        throw new Error(result.error || 'Failed to save consent');
+                    }
+                }
+                
+                showSuccess('Data processing preferences saved successfully!');
+            } catch (error) {
+                console.error('Data consent error:', error);
+                showError('Failed to save data processing preferences. Please try again.');
+            }
+        }
+
+        async function loadConsentHistory() {
+            try {
+                const response = await fetch('/api/consent/history/current-user');
+                const result = await response.json();
+                
+                if (response.ok) {
+                    displayConsentHistory(result.history);
+                } else {
+                    document.getElementById('consent-history').innerHTML = 
+                        '<p>Unable to load consent history. Please try again later.</p>';
+                }
+            } catch (error) {
+                console.error('Consent history error:', error);
+                document.getElementById('consent-history').innerHTML = 
+                    '<p>Unable to load consent history. Please try again later.</p>';
+            }
+        }
+
+        function displayConsentHistory(history) {
+            const historyContainer = document.getElementById('consent-history');
+            
+            if (history.length === 0) {
+                historyContainer.innerHTML = '<p>No consent history found.</p>';
+                return;
+            }
+            
+            const historyHTML = history.map(record => `
+                <div style="border: 1px solid #e2e8f0; border-radius: 4px; padding: 1rem; margin: 0.5rem 0;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <strong>${record.type}</strong> - ${record.purpose}
+                        </div>
+                        <div style="color: ${record.given ? '#38a169' : '#e53e3e'}; font-weight: 500;">
+                            ${record.given ? 'Given' : 'Withdrawn'}
+                        </div>
+                    </div>
+                    <div style="font-size: 0.875rem; color: #718096; margin-top: 0.5rem;">
+                        ${new Date(record.timestamp).toLocaleString()}
+                    </div>
+                </div>
+            `).join('');
+            
+            historyContainer.innerHTML = historyHTML;
+        }
+
+        function showSuccess(message) {
+            const successDiv = document.createElement('div');
+            successDiv.className = 'success-message';
+            successDiv.innerHTML = `<p>${escapeHtml(message)}</p>`;
+            
+            document.querySelector('.consent-content').insertBefore(successDiv, document.querySelector('.consent-content').firstChild);
+            
+            setTimeout(() => {
+                if (successDiv.parentNode) {
+                    successDiv.parentNode.removeChild(successDiv);
+                }
+            }, 5000);
+        }
+
+        function showError(message) {
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'form-error';
+            errorDiv.innerHTML = `<p>${escapeHtml(message)}</p>`;
+            
+            document.querySelector('.consent-content').insertBefore(errorDiv, document.querySelector('.consent-content').firstChild);
+            
+            setTimeout(() => {
+                if (errorDiv.parentNode) {
+                    errorDiv.parentNode.removeChild(errorDiv);
+                }
+            }, 5000);
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+    </script>
+</body>
+</html>
