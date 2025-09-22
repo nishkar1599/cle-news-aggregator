@@ -197,6 +197,62 @@
 
 
 
+    <!-- Cookie Consent Popup -->
+    <div id="cookie-consent-popup" class="cookie-popup" role="dialog" aria-labelledby="cookie-popup-title" aria-describedby="cookie-popup-description">
+        <div class="cookie-popup-content">
+            <div class="cookie-popup-header">
+                <h3 id="cookie-popup-title">Cookie Consent</h3>
+                <p id="cookie-popup-description">We use cookies to enhance your experience and analyze site usage. By clicking "Accept All", you consent to our use of cookies.</p>
+            </div>
+            
+            <div class="cookie-popup-body">
+                <div class="cookie-types">
+                    <div class="cookie-type">
+                        <div class="cookie-type-info">
+                            <h4>Essential Cookies</h4>
+                            <p>Required for basic website functionality</p>
+                        </div>
+                        <div class="cookie-status required">Always Active</div>
+                    </div>
+                    
+                    <div class="cookie-type">
+                        <div class="cookie-type-info">
+                            <h4>Analytics Cookies</h4>
+                            <p>Help us understand how you use our site</p>
+                        </div>
+                        <div class="cookie-toggle">
+                            <input type="checkbox" id="analytics-consent" class="cookie-checkbox">
+                            <label for="analytics-consent" class="cookie-label">Allow</label>
+                        </div>
+                    </div>
+                    
+                    <div class="cookie-type">
+                        <div class="cookie-type-info">
+                            <h4>Preference Cookies</h4>
+                            <p>Remember your settings and preferences</p>
+                        </div>
+                        <div class="cookie-toggle">
+                            <input type="checkbox" id="preferences-consent" class="cookie-checkbox">
+                            <label for="preferences-consent" class="cookie-label">Allow</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="cookie-popup-footer">
+                <div class="cookie-buttons">
+                    <button id="cookie-accept-all" class="btn btn-primary">Accept All</button>
+                    <button id="cookie-accept-selected" class="btn btn-secondary">Accept Selected</button>
+                    <button id="cookie-reject-all" class="btn btn-outline">Reject All</button>
+                </div>
+                <div class="cookie-links">
+                    <a href="/consent.html" class="cookie-link">Manage Preferences</a>
+                    <a href="/privacy.html" class="cookie-link">Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Scripts -->
     <script src="app.js"></script>
 </body>

@@ -15,6 +15,7 @@ class NewsAggregator {
         this.checkConsent();
         this.setupAccessibility();
         this.setupStickyHeader();
+        this.initCookiePopup();
     }
 
     setupEventListeners() {
@@ -321,8 +322,15 @@ class NewsAggregator {
     async checkConsent() {
         // Check if user has given consent for data processing
         const consent = localStorage.getItem('gdpr-consent');
+        const cookieConsent = localStorage.getItem('cookie-consent');
+        
         if (consent) {
             this.consentGiven = true;
+        }
+        
+        if (cookieConsent) {
+            const parsedConsent = JSON.parse(cookieConsent);
+            this.applyCookieSettings(parsedConsent);
         }
     }
 
@@ -506,6 +514,182 @@ class NewsAggregator {
     }
 
 
+    // Cookie Popup Methods
+    initCookiePopup() {
+        // Check if user has already given consent
+        const cookieConsent = localStorage.getItem('cookie-consent');
+        if (cookieConsent) {
+            console.log('Cookie consent already given:', JSON.parse(cookieConsent));
+            return;
+        }
+
+        // Show cookie popup after a short delay
+        setTimeout(() => {
+            this.showCookiePopup();
+        }, 1000);
+    }
+
+    showCookiePopup() {
+        const popup = document.getElementById('cookie-consent-popup');
+        if (!popup) return;
+
+        popup.classList.add('show');
+        
+        // Setup event listeners for cookie popup buttons
+        this.setupCookiePopupListeners();
+        
+        // Focus management for accessibility
+        const firstButton = popup.querySelector('#cookie-accept-all');
+        if (firstButton) {
+            firstButton.focus();
+        }
+    }
+
+    hideCookiePopup() {
+        const popup = document.getElementById('cookie-consent-popup');
+        if (popup) {
+            popup.classList.remove('show');
+        }
+    }
+
+    setupCookiePopupListeners() {
+        // Accept All button
+        document.getElementById('cookie-accept-all')?.addEventListener('click', () => {
+            this.acceptAllCookies();
+        });
+
+        // Accept Selected button
+        document.getElementById('cookie-accept-selected')?.addEventListener('click', () => {
+            this.acceptSelectedCookies();
+        });
+
+        // Reject All button
+        document.getElementById('cookie-reject-all')?.addEventListener('click', () => {
+            this.rejectAllCookies();
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                this.hideCookiePopup();
+            }
+        });
+    }
+
+    acceptAllCookies() {
+        const consent = {
+            essential: true,
+            analytics: true,
+            preferences: true,
+            timestamp: new Date().toISOString(),
+            version: '1.0'
+        };
+
+        this.saveCookieConsent(consent);
+        this.hideCookiePopup();
+        this.showSuccess('Cookie preferences saved!');
+        
+        // Log for GDPR compliance
+        console.log('All cookies accepted:', consent);
+    }
+
+    acceptSelectedCookies() {
+        const analyticsConsent = document.getElementById('analytics-consent')?.checked || false;
+        const preferencesConsent = document.getElementById('preferences-consent')?.checked || false;
+
+        const consent = {
+            essential: true, // Always true
+            analytics: analyticsConsent,
+            preferences: preferencesConsent,
+            timestamp: new Date().toISOString(),
+            version: '1.0'
+        };
+
+        this.saveCookieConsent(consent);
+        this.hideCookiePopup();
+        this.showSuccess('Selected cookie preferences saved!');
+        
+        // Log for GDPR compliance
+        console.log('Selected cookies accepted:', consent);
+    }
+
+    rejectAllCookies() {
+        const consent = {
+            essential: true, // Always true for basic functionality
+            analytics: false,
+            preferences: false,
+            timestamp: new Date().toISOString(),
+            version: '1.0'
+        };
+
+        this.saveCookieConsent(consent);
+        this.hideCookiePopup();
+        this.showSuccess('Cookie preferences saved!');
+        
+        // Log for GDPR compliance
+        console.log('Non-essential cookies rejected:', consent);
+    }
+
+    async saveCookieConsent(consent) {
+        // Save to localStorage
+        localStorage.setItem('cookie-consent', JSON.stringify(consent));
+        
+        // Send to backend for compliance tracking
+        try {
+            const response = await fetch(`${this.apiBase}/consent/cookies`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    userId: 'current-user', // In a real app, get from auth
+                    essential: consent.essential,
+                    analytics: consent.analytics,
+                    preferences: consent.preferences,
+                    timestamp: consent.timestamp
+                })
+            });
+
+            if (response.ok) {
+                console.log('Cookie consent saved to backend');
+            } else {
+                console.warn('Failed to save cookie consent to backend');
+            }
+        } catch (error) {
+            console.error('Error saving cookie consent:', error);
+        }
+
+        // Apply cookie settings
+        this.applyCookieSettings(consent);
+    }
+
+    applyCookieSettings(consent) {
+        // Enable/disable analytics based on consent
+        if (consent.analytics) {
+            console.log('Analytics cookies enabled');
+            // Here you would initialize analytics tools like Google Analytics
+        } else {
+            console.log('Analytics cookies disabled');
+            // Here you would disable analytics tools
+        }
+
+        // Enable/disable preference cookies
+        if (consent.preferences) {
+            console.log('Preference cookies enabled');
+            // Here you would enable preference saving
+        } else {
+            console.log('Preference cookies disabled');
+            // Here you would disable preference saving
+        }
+    }
+
+    // Method to reopen cookie popup (for consent management page)
+    reopenCookiePopup() {
+        // Clear existing consent to force popup to show
+        localStorage.removeItem('cookie-consent');
+        this.showCookiePopup();
+    }
+
     // Utility methods
     escapeHtml(text) {
         const div = document.createElement('div');
@@ -517,6 +701,11 @@ class NewsAggregator {
 // Global functions for HTML onclick handlers (if needed)
 function switchTab(tabName) {
     newsAggregator.switchTab(tabName);
+}
+
+// Global function to reopen cookie popup
+function reopenCookiePopup() {
+    newsAggregator.reopenCookiePopup();
 }
 
 // Initialize the application
